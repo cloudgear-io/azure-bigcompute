@@ -401,6 +401,7 @@ install_docker_apps()
     
     docker run -dti --restart=always --name=azure-cli microsoft/azure-cli
     docker run -dti --restart=always --name=azure-cli-python azuresdk/azure-cli-python
+    docker run -dti --restart=always --name=vsts-cli microsoft/vsts-cli
 }
 
 install_ib()
@@ -991,18 +992,29 @@ fi
 
 ubuntu_nvidia-docker()
 {
-wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v$nvidiadockerbinver/nvidia-docker_$nvidiadockerbinver-1_amd64.deb
-dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
+#wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v$nvidiadockerbinver/nvidia-docker_$nvidiadockerbinver-1_amd64.deb
+#dpkg -i /tmp/nvidia-docker*.deb && rm /tmp/nvidia-docker*.deb
 #systemctl enable nvidia-docker
 #systemctl start nvidia-docker
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+  sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+DEBIAN_FRONTEND=noninteractive apt-get -y update \
+DEBIAN_FRONTEND=noninteractive apt-get install -y nvidia-docker2 \
+pkill -SIGHUP dockerd
 }
 
 centos_nvidia-docker()
 {
-wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v$nvidiadockerbinver/nvidia-docker-$nvidiadockerbinver-1.x86_64.rpm
-rpm -ivh /tmp/nvidia-docker*.rpm && rm /tmp/nvidia-docker*.rpm
+#wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v$nvidiadockerbinver/nvidia-docker-$nvidiadockerbinver-1.x86_64.rpm
+#rpm -ivh /tmp/nvidia-docker*.rpm && rm /tmp/nvidia-docker*.rpm
 #systemctl enable nvidia-docker
 #systemctl start nvidia-docker
+curl -s -L https://nvidia.github.io/nvidia-docker/centos7/x86_64/nvidia-docker.repo | \
+  sudo tee /etc/yum.repos.d/nvidia-docker.repo
+yum install -y nvidia-docker2
+pkill -SIGHUP dockerd
 }
 
 install_cudalatest_centos()

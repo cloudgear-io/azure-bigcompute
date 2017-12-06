@@ -345,9 +345,9 @@
         },
         "nvidiadockerBinaryVersion": {
             "type": "string",
-            "defaultValue": "1.0.1",
+            "defaultValue": "2.0",
             "metadata": {
-                "description": "The Latest nvidia-docker binary version from https://github.com/NVIDIA/nvidia-docker/releases"
+                "description": "The Latest Beta 2.0 nvidia docker runtime and not from nvidia-docker binary version from https://github.com/NVIDIA/nvidia-docker/releases"
             }
         },
         "cudaVersion": {
