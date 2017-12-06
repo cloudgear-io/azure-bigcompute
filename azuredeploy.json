@@ -463,7 +463,7 @@
         }
     }],
     "variables": {
-        "templatelink": "[concat('https://raw.githubusercontent.com/azure/azure-bigcompute/master/',parameters('singleOrCluster'),'azuredeploy.json')]"
+        "templatelink": "[concat('https://raw.githubusercontent.com/cloudgear-io/azure-bigcompute/master/',parameters('singleOrCluster'),'azuredeploy.json')]"
     },
     "outputs": {
         "result": {
