@@ -54,7 +54,7 @@ questions or comments.
    <img alt="Deploy to Azure" src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcloudgear-io%2Fazure-bigcompute%2Fmaster%2Fazuredeploy.json" target="_blank">  
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fcloudgear-io%2Fazure-bigcompute%2Fmaster%2Fclusterazuredeploy.json" target="_blank">  
 <img src="http://armviz.io/visualizebutton.png"/> </a> 
 
 For portal Deployment, the following pic might assist.
