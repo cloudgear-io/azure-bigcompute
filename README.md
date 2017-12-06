@@ -40,13 +40,14 @@ Table of Contents
 **[Azure Big Compute](https://azure.microsoft.com/en-us/solutions/big-compute/)**
 ## License
   * Please see the [LICENSE file](https://github.com/cloudgear-io/azure-bigcompute/blob/master/LICENSE) for licensing information.
-## MSFT OSCC
+## MSFT OSCC 
+  * Thought this is a headless mirror on last commit of unmaintained https://github.com/Azure/azure-bigcompute, keeping Code of Conduct guidelines, the same:
   * This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information
 see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional
 questions or comments.
 ## Credits
 **This repo is inspired by [Christian Smith](https://github.com/smith1511)'s repo https://github.com/smith1511/hpc**
-  * https://github.com/cloudgear-io/azure-bigcompute - unmaintained - Maintained limited here @ https://github.com/cloudgear-io/azure-bigcompute
+  * https://github.com/Azure/azure-bigcompute - unmaintained - Maintained limited here on last commit headless mirror @ https://github.com/cloudgear-io/azure-bigcompute
 
 # Deploy from Portal and visualize
 <a href="https://preview.portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcloudgear-io%2Fazure-bigcompute%2Fmaster%2Fazuredeploy.json" target="_blank">
@@ -62,7 +63,7 @@ For portal Deployment, the following pic might assist.
 
 This project is hosted at:
 
-  * https://github.com/cloudgear-io/azure-bigcompute - unmaintained- maintained limited here @ https://github.com/cloudgear-io/azure-bigcompute
+  * https://github.com/Azure/azure-bigcompute - unmaintained- maintained limited here initiated on last commit @ https://github.com/cloudgear-io/azure-bigcompute
 
 For the latest version, to contribute, and for more information, please go through [this README.md](https://github.com/cloudgear-io/azure-bigcompute/blob/master/README.md).
 
