@@ -999,11 +999,7 @@ ubuntu_nvidia-docker()
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
   sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu16.04/amd64/nvidia-docker.list | \
-  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-DEBIAN_FRONTEND=noninteractive apt-get -y update \
-DEBIAN_FRONTEND=noninteractive apt-get install -y nvidia-docker2 \
-pkill -SIGHUP dockerd
-docker run --runtime=nvidia --name digits -d -p 5000:5000 nvidia/digits
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list && DEBIAN_FRONTEND=noninteractive apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get install -y nvidia-docker2 &&pkill -SIGHUP dockerd && docker run --runtime=nvidia --name digits -d -p 5000:5000 nvidia/digits
 }
 
 centos_nvidia-docker()
@@ -1013,10 +1009,7 @@ centos_nvidia-docker()
 #systemctl enable nvidia-docker
 #systemctl start nvidia-docker
 curl -s -L https://nvidia.github.io/nvidia-docker/centos7/x86_64/nvidia-docker.repo | \
-  sudo tee /etc/yum.repos.d/nvidia-docker.repo
-yum install -y nvidia-docker2
-pkill -SIGHUP dockerd
-docker run --runtime=nvidia --name digits -d -p 5000:5000 nvidia/digits
+  sudo tee /etc/yum.repos.d/nvidia-docker.repo && yum install -y nvidia-docker2 && pkill -SIGHUP dockerd && docker run --runtime=nvidia --name digits -d -p 5000:5000 nvidia/digits
 }
 
 install_cudalatest_centos()
