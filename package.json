@@ -7,14 +7,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Azure/azure-bigcompute.git"
+    "url": "git+https://github.com/cloudgear-io/azure-bigcompute.git"
   },
   "author": "dwaiba",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Azure/azure-bigcompute/issues"
+    "url": "https://github.com/cloudgear-io/azure-bigcompute/issues"
   },
-  "homepage": "https://github.com/Azure/azure-bigcompute#readme",
+  "homepage": "https://github.com/cloudgear-io/azure-bigcompute#readme",
   "devDependencies": {
     "debug": "^2.2.0",
     "grunt": "^0.4.5",

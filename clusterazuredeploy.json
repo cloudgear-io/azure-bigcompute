@@ -236,14 +236,14 @@
         },
         "dockerComposeVer": {
             "type": "string",
-            "defaultValue": "1.12.0",
+            "defaultValue": "1.17.1",
             "metadata": {
                 "description": "The Docker Compose Version"
             }
         },
         "dockerMachineVer": {
             "type": "string",
-            "defaultValue": "0.10.0",
+            "defaultValue": "0.13.0",
             "metadata": {
                 "description": "The docker-machine version"
             }
@@ -662,7 +662,7 @@
     ],
     "variables": {
         "armApiVersion": "2015-06-15",
-        "artifactsLocation": "https://raw.githubusercontent.com/Azure/azure-bigcompute/master/",
+        "artifactsLocation": "https://raw.githubusercontent.com/cloudgear-io/azure-bigcompute/master/",
         "avSetName": "avSet",
         "diskCaching": "ReadWrite",
         "MUNGE_VER": "0.5.11",
