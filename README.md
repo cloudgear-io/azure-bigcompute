@@ -27,6 +27,7 @@ Table of Contents
           * [Installation of NVIDIA CUDA Toolkit during provisioning via this repo](#installation-of-nvidia-cuda-toolkit-during-provisioning-via-this-repo)
 	     * [Secure installation of CUDNN during provisioning via this repo](#secure-installation-of-cudnn-during-provisioning-via-this-repo)
       * [nvidia-docker usage](#nvidia-docker-usage)
+         * [DIGITS with docker runtime nvidia 2 and tensorboard within DIGITS](#digits-with-docker-runtime-nvidia-2-and-tensorboard-within-digits)
       * [License Agreements](#license-agreements)   
    * [H-Series and A9 with schedulers](#h-series-and-a9-with-schedulers)
       * [mpirun](#mpirun)
@@ -213,9 +214,9 @@ az group create -l westeurope -n ubuntupublicwe && az group deployment create -g
 * Entry point is valid for the stated sku presently only for  specific regions of "East-US" or "Southcentral-US". Sku availability per region is [here](https://azure.microsoft.com/en-us/regions/services/#).
 * gpu enablement is possible only on approval of quota for sku usage in the stated subscription. Please see this [link](https://blogs.msdn.microsoft.com/girishp/2015/09/20/increasing-core-quota-limits-in-azure/) for instructions on requesting a core quota increase. 
 * NVIDIA drivers are OK for Ubuntu 16.04-LTS as well as for CentOS 7.3, both being unattended cluster as well as single install.
-* Latest Secure Install of CUDA available and [samples](http://developer.download.nvidia.com/compute/cuda/1.1-Beta/x86_website/samples.html) on RAID0 (/data/data default) @ NVIDIA_CUDA-8.0_Samples for Ubuntu and in /usr/local/cuda-8.0/samples for CentOS 7.3.
+* Latest Secure Install of CUDA available (auto updated to 9.0) and [samples](http://developer.download.nvidia.com/compute/cuda/1.1-Beta/x86_website/samples.html) on RAID0 (/data/data default) @ NVIDIA_CUDA-9.0_Samples for Ubuntu and in /usr/local/cuda-9.0/samples for CentOS 7.3.
 * One can run all [CUDA Samples](http://developer.download.nvidia.com/compute/cuda/1.1-Beta/x86_website/samples.html) across the cluster and test with latest CUDA and CUDAnn.
-* Latest Docker CE both for Ubuntu and CentOS configurable each Head and all compute Nodes. - default is 17.03 CE.
+* Latest Docker CE both for Ubuntu and CentOS configurable each Head and all compute Nodes. - default is 17.09.x CE.
 * Latest docker-compose configurable each Head and compute Nodes. 
 * Latest docker-machine configurable.
 * Latest new and old azure cli are in both Head and Compute nodes.
@@ -229,7 +230,7 @@ az group create -l westeurope -n ubuntupublicwe && az group deployment create -g
 
 ###  Try CUDA Samples and GROMACS
 
-* Latest Secure Install of CUDA available and [samples](http://developer.download.nvidia.com/compute/cuda/1.1-Beta/x86_website/samples.html) on RAID0 (/data/data default) @ NVIDIA_CUDA-8.0_Samples for Ubuntu and in /usr/local/cuda-8.0/samples for CentOS 7.3. just a make within each would suffice post successful provisioning.
+* Latest Secure Install of CUDA available (auto updated to 9.0) and [samples](http://developer.download.nvidia.com/compute/cuda/1.1-Beta/x86_website/samples.html) on RAID0 (/data/data default) @ NVIDIA_CUDA-9.0_Samples for Ubuntu and in /usr/local/cuda-9.0/samples for CentOS 7.3. just a make within each would suffice post successful provisioning.
 * Securely install [GROMACS](http://www.gromacs.org/About_Gromacs) via the following for GPU Usage. 
 *  For **both GPU and MPI Usage** please use the following extra **<code>-DGMX_MPI=on</code>** cmake option
 
@@ -254,6 +255,8 @@ az group create -l westeurope -n ubuntupublicwe && az group deployment create -g
 ```
 	
 Post the above gmx would be available. For further reference please visit latest [GROMACS manual](http://manual.gromacs.org/documentation/2016.3/)
+
+
 
 ### Unattended NVIDIA Tesla Driver Silent Install without further reboot during provisioning via this repo
 
@@ -369,6 +372,17 @@ cuDNN is part of the NVIDIA Deep Learning SDK and is installed silently as follo
 
 nvidia-docker version parameterized binary installation is automated for both Ubuntu 16.04-LTS and CentOS 7.3
 
+The latest nvidia 2.0 runtime for docker is available and auto running post cluster provisiong
+##### DIGITS with docker runtime nvidia 2 and tensorboard within DIGITS
+DIGITS Latest is available @ 
+```sh
+http://<Cluster_Public_IP>:5000
+```
+and Tensorboard @
+```sh
+http://<Cluster_Public_IP>:6006
+```
+##### Notes on nvidia-docker usage
 Besides, Latest [Installation of NVIDIA CUDA Toolkit during provisioning via this repo](#installation-of-nvidia-cuda-toolkit-during-provisioning-via-this-repo):
 
 nvidia-docker can be leveraged for usage of dockerized CUDA Toolkit Usage as per the test and picture below. This opens up possibilities of using "py" and "gpu" tagged images of [cntk](https://hub.docker.com/r/microsoft/cntk/tags/), [tensorflow](https://hub.docker.com/r/tensorflow/tensorflow/tags/), [theano](https://github.com/Kaixhin/dockerfiles) and [more](https://developer.nvidia.com/deep-learning-frameworks) available as nightly builds from docker hub with jupyter notebooks. Latest gitlab.com/nvidia cudnn RCs can be used for testing.
