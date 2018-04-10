@@ -368,7 +368,7 @@
         },
         "TeslaDriverVersion": {
             "type": "string",
-            "defaultValue": "375.51",
+            "defaultValue": "390.48",
             "metadata": {
                 "description": "The Latest TESLA DRIVER RUNFILE version for LINUX X64"
             }
