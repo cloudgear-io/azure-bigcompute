@@ -1156,7 +1156,14 @@ echo -ne "/root/install_nvidiarun.sh" >> /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 }
 
-
+movedocker2mount()
+{
+systemctl stop docker
+tar -zcC /var/lib docker > /$SHARE_DATA/var_lib_docker-backup-$(date +%s).tar.gz
+mv /var/lib/docker $SHARE_DATA/
+ln -s $SHARE_DATA/docker/ /var/lib/
+systemctl start docker
+}
 #########################
 	if [ "$skuName" == "16.04-LTS" ] ; then
 		install_packages_ubuntu
