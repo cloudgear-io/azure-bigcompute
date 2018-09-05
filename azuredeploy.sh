@@ -1238,7 +1238,10 @@ install_tf_kubectl_helm()
 		setup_hpc_user
 		gpasswd -a $HPC_USER docker
 		setup_env
-    install_tf_kubectl_helm
+	    is_master()
+	    {
+		    install_tf_kubectl_helm
+	    }
 
 		    if [ "$SALTSTACKBOOLEAN" == "Yes" ] ; then
 		    install_saltsaltstack_centos
