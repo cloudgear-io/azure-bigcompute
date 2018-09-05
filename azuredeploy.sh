@@ -403,6 +403,8 @@ install_docker_apps()
     #docker run -dti --restart=always --name=azure-cli microsoft/azure-cli
     docker run -dti --restart=always --name=azure-cli-python azuresdk/azure-cli-python
     docker run -dti --restart=always --name=vsts-cli microsoft/vsts-cli
+    docker run --name artifactory -dti -p 8081:8081 docker.bintray.io/jfrog/artifactory-oss:latest
+    mkdir -p $SHARE_DATA/teamcity_server/opt/ && docker run -dti --name teamcity-server-instance -v $SHARE_DATA/teamcity_server:/data/teamcity_server/datadir -v $SHARE_DATA/teamcity_server/opt/:/opt/teamcity/logs -p 8111:8111 jetbrains/teamcity-server
 }
 
 install_ib()
