@@ -170,12 +170,18 @@
                 "Standard_F1s",
                 "Standard_F2",
                 "Standard_F2s",
+		        "Standard_F2s_v2",
                 "Standard_F4",
                 "Standard_F4s",
+		        "Standard_F4s_v2",
                 "Standard_F8",
                 "Standard_F8s",
+		        "Standard_F8s_v2",
                 "Standard_F16",
                 "Standard_F16s",
+		        "Standard_F16s_v2",
+		        "Standard_F32s_v2",
+		        "Standard_F64s_v2",
                 "Standard_G1",
                 "Standard_G2",
                 "Standard_G3",
@@ -237,14 +243,14 @@
         },
         "dockerComposeVer": {
             "type": "string",
-            "defaultValue": "1.17.1",
+            "defaultValue": "1.22.0",
             "metadata": {
                 "description": "The Docker Compose Version"
             }
         },
         "dockerMachineVer": {
             "type": "string",
-            "defaultValue": "0.13.0",
+            "defaultValue": "0.15.0",
             "metadata": {
                 "description": "The docker-machine version"
             }
