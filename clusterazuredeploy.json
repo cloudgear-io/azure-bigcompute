@@ -237,14 +237,14 @@
         },
         "dockerComposeVer": {
             "type": "string",
-            "defaultValue": "1.17.1",
+            "defaultValue": "1.22.0",
             "metadata": {
                 "description": "The Docker Compose Version"
             }
         },
         "dockerMachineVer": {
             "type": "string",
-            "defaultValue": "0.13.0",
+            "defaultValue": "0.15.0",
             "metadata": {
                 "description": "The docker-machine version"
             }
