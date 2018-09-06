@@ -56,7 +56,8 @@ dockMVer=$( echo "$7" |cut -d\: -f3 )
 userName=$( echo "$8" |cut -d\: -f2 )
 skuName=$( echo "$8" |cut -d\: -f1 )
 TEMPLATE_BASE_URL=$9
-
+CLOUDSDK_INSTALL_DIR=$SHARE_DATA
+CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 # Returns 0 if this node is the master node.
 #
@@ -1173,9 +1174,12 @@ if is_master; then
       su -c "curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > $SHARE_DATA/get_helm.sh" $HPC_USER
       su -c "chmod 700 $SHARE_DATA/get_helm.sh" $HPC_USER
       su -c "$SHARE_DATA/./get_helm.sh" $HPC_USER
-      su -c "/usr/local/bin/helm init --client-only --upgrade " $HPC_USER
+      su -c "/usr/local/bin/helm init --client-only --upgrade" $HPC_USER
       su -c "/usr/local/bin/helm repo add azure-samples https://azure-samples.github.io/helm-charts/  && /usr/local/bin/helm repo add gitlab https://charts.gitlab.io/  && /usr/local/bin/helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/ && /usr/local/bin/helm  repo add bitnami https://charts.bitnami.com/bitnami" $HPC_USER
       curl -LO --retry 3 https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip && unzip terraform_0.11.8_linux_amd64.zip && chmod +x ./terraform && sudo mv terraform /usr/local/bin/ && curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl
+      su -c "curl https://sdk.cloud.google.com | bash" $HPC_USER
+      echo "source $SHARE_DATA/google-cloud-sdk/path.bash.inc" >> /etc/profile.d/gcloud.sh
+      echo "source $SHARE_DATA/google-cloud-sdk/completion.bash.inc" >> /etc/profile.d/gcloud.sh
 else
 echo "install_tf_kubectl_helm already installed on share"
 fi     
