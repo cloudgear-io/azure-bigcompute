@@ -470,13 +470,9 @@ install_pkgs_all()
 #
 mv_docker_mdadm()
 {
-if is_master; then
-        DOCKERHOSTFOL=docker$MASTER_HOSTNAME
-else
-        WORKER_HOSTNAME="$(hostname)" 
-        DOCKERHOSTFOL=docker$WORKER_HOSTNAME
-fi
-        systemctl stop docker && tar -zcC /var/lib docker > $SHARE_DATA/var_lib_docker-backup-$(date +%s).tar.gz && mv /var/lib/docker $SHARE_DATA/$DOCKERHOSTFOL && ln -s $SHARE_DATA/$DOCKERHOSTFOL /var/lib/docker && systemctl start docker
+ DOCKER_HOSTNAME="$(hostname)" 
+ DOCKERHOSTFOL=docker$DOCKER_HOSTNAME
+ systemctl stop docker && tar -zcC /var/lib docker > $SHARE_DATA/var_lib_docker-backup-$(date +%s).tar.gz && mv /var/lib/docker $SHARE_DATA/$DOCKERHOSTFOL && ln -s $SHARE_DATA/$DOCKERHOSTFOL /var/lib/docker && systemctl start docker
 }
 
 install_all_docker()
