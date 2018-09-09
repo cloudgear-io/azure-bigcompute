@@ -470,9 +470,11 @@ install_pkgs_all()
 #
 mv_docker_mdadm()
 {
+ if is_master; then
  DOCKER_HOSTNAME="$(hostname)" 
  DOCKERHOSTFOL=docker$DOCKER_HOSTNAME
  systemctl stop docker && tar -zcC /var/lib docker > $SHARE_DATA/var_lib_docker-backup-$(date +%s).tar.gz && mv /var/lib/docker $SHARE_DATA/$DOCKERHOSTFOL && ln -s $SHARE_DATA/$DOCKERHOSTFOL /var/lib/docker && systemctl start docker
+ fi
 }
 
 install_all_docker()
