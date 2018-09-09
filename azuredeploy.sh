@@ -1261,7 +1261,7 @@ fi
 		setup_hpc_user
 		gpasswd -a $HPC_USER docker
 		setup_env
-                install_tf_kubectl_helm
+                install_docker_tf_kubectl_helm
 		    if [ "$SALTSTACKBOOLEAN" == "Yes" ] ; then
 		    install_saltsaltstack_centos
 		    fi
