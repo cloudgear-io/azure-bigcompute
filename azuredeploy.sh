@@ -528,7 +528,7 @@ setup_shares()
 	        mount | grep "^$MASTER_HOSTNAME:$SHARE_DATA"
 
     fi
-    install_all_docker
+
 }
 
 
@@ -1181,8 +1181,9 @@ mv /var/lib/docker $SHARE_DATA/
 ln -s $SHARE_DATA/docker/ /var/lib/
 systemctl start docker
 }
-install_tf_kubectl_helm()
+install_docker_tf_kubectl_helm()
 {
+install_all_docker
 if is_master; then
       su -c "curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > $SHARE_DATA/get_helm.sh" $HPC_USER
       su -c "chmod 700 $SHARE_DATA/get_helm.sh" $HPC_USER
