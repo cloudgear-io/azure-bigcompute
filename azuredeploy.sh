@@ -455,11 +455,6 @@ install_pkgs_all()
 
 	if [ "$skuName" == "6.5" ] || [ "$skuName" == "6.6" ] ; then
     		install_azure_cli
-	elif [ "$skuName" == "7.2" ] || [ "$skuName" == "7.1" ] || [ "$skuName" == "7.3" ] || [ "$skuName" == "7.4" ] ; then
-
-    		install_docker
-
-    		install_docker_apps
 	fi
 
     install_ib
@@ -473,6 +468,25 @@ install_pkgs_all()
 #
 # These shares are mounted on all worker nodes.
 #
+mv_docker_mdadm()
+{
+if is_master; then
+        DOCKERHOSTFOL=docker$MASTER_HOSTNAME
+else
+        WORKER_HOSTNAME="$(hostname)" 
+        DOCKERHOSTFOL=docker$WORKER_HOSTNAME
+fi
+        systemctl stop docker && tar -zcC /var/lib $DOCKERHOSTFOL > $SHARE_DATA/var_lib_docker-backup-$(date +%s).tar.gz && mv /var/lib/docker $SHARE_DATA && ln -s $SHARE_DATA/$DOCKERHOSTFOL /var/lib/ && systemctl start docker
+}
+
+install_all_docker()
+{
+	if [ "$skuName" == "7.2" ] || [ "$skuName" == "7.1" ] || [ "$skuName" == "7.3" ] || [ "$skuName" == "7.4" ] ; then
+        install_docker
+        mv_docker_mdadm
+        install_docker_apps
+	fi
+}
 setup_shares()
 {
     mkdir -p $SHARE_HOME
@@ -514,6 +528,7 @@ setup_shares()
 	        mount | grep "^$MASTER_HOSTNAME:$SHARE_DATA"
 
     fi
+    install_all_docker
 }
 
 
