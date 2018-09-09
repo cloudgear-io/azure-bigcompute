@@ -476,7 +476,7 @@ else
         WORKER_HOSTNAME="$(hostname)" 
         DOCKERHOSTFOL=docker$WORKER_HOSTNAME
 fi
-        systemctl stop docker && tar -zcC /var/lib $DOCKERHOSTFOL > $SHARE_DATA/var_lib_docker-backup-$(date +%s).tar.gz && mv /var/lib/docker $SHARE_DATA && ln -s $SHARE_DATA/$DOCKERHOSTFOL /var/lib/ && systemctl start docker
+        systemctl stop docker && tar -zcC /var/lib docker > $SHARE_DATA/var_lib_docker-backup-$(date +%s).tar.gz && mv /var/lib/docker $SHARE_DATA/$DOCKERHOSTFOL && ln -s $SHARE_DATA/$DOCKERHOSTFOL /var/lib/docker && systemctl start docker
 }
 
 install_all_docker()
