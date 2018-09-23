@@ -1203,7 +1203,7 @@ if is_master; then
 yum install -y pam-devel bzip2-devel openssl-devel readline-devel perl-ExtUtils-MakeMaker mariadb-server mariadb-devel
 wget https://github.com/dun/munge/releases/download/munge-0.5.13/munge-0.5.13.tar.xz
 rpmbuild -ta --clean munge-0.5.13.tar.xz
-#yum install -y /rpmbuild/RPMS/x86_64/munge-*
+yum install -y /rpmbuild/RPMS/x86_64/munge-*
 wget https://download.schedmd.com/slurm/slurm-18.08.0.tar.bz2
 rpmbuild -tb --clean slurm-18.08.0.tar.bz2
 #yum install -y /root/rpmbuild/RPMS/x86_64/slurm-*
