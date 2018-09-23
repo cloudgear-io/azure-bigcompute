@@ -1196,6 +1196,21 @@ else
 echo "install_tf_kubectl_helm already installed on share"
 fi     
 }
+
+install_slurm_head()
+{
+if is_master; then
+yum install -y pam-devel bzip2-devel openssl-dev readline-devel perl-ExtUtils-MakeMaker mariadb-server maroadb-devel
+wget https://github.com/dun/munge/releases/download/munge-0.5.13/munge-0.5.13.tar.xz
+rpmbuild -ta --clean munge-0.5.13.tar.xz
+yum install -y ~/rpmbuild/RPMS/x86_64/munge-*
+wget https://download.schedmd.com/slurm/slurm-18.08.0.tar.bz2
+rpmbuild -tb --clean slurm-18.08.0.tar.bz2
+yum install -y ~/rpmbuild/RPMS/x86_64/slurm-*
+else
+echo "install manually on computes"
+fi  
+}
 #########################
 	if [ "$skuName" == "16.04-LTS" ] ; then
 		install_packages_ubuntu
@@ -1258,7 +1273,7 @@ fi
 		setup_shares
 		setup_hpc_user
 		setup_env
-                install_docker_tf_kubectl_helm
+        install_docker_tf_kubectl_helm
 		gpasswd -a $HPC_USER docker
 		    if [ "$SALTSTACKBOOLEAN" == "Yes" ] ; then
 		    install_saltsaltstack_centos
@@ -1284,8 +1299,8 @@ fi
 		    sleep 30;
 		    installomsagent;
 		    fi
-		    
-	            if [ "$TORQUEORPBS" == "Torque" ] ; then
+		    install_slurm_head
+	        if [ "$TORQUEORPBS" == "Torque" ] ; then
 		    install_torque
 		    elif [ "$TORQUEORPBS" == "pbspro" ] ; then
 		    enable_kernel_update
