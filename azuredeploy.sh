@@ -1301,8 +1301,7 @@ install_slurm()
 
     mkdir -p /etc/slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld
 
-    chown -R slurm:slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld
-
+    chown -R slurm:slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld && rm -rf master.tar.gz
     wget https://github.com/SchedMD/slurm/archive/$SLURM_VERSION.tar.gz
 
     tar xvfz $SLURM_VERSION.tar.gz
@@ -1428,7 +1427,7 @@ install_slurm()
 		    install_pbspro
 		    disable_kernel_update
             elif [ "$TORQUEORPBSORSLURM" == "slurm" ] ; then
-            install_slurm_rpms
+            #install_slurm_rpms
             install_munge
             install_slurm_config
             install_slurm
@@ -1455,7 +1454,7 @@ install_slurm()
 		    install_pbspro
 		    disable_kernel_update
             elif [ "$TORQUEORPBSORSLURM" == "slurm" ] ; then
-            install_slurm_rpms
+            #install_slurm_rpms
             install_munge
             install_slurm_config
             install_slurm
@@ -1482,7 +1481,7 @@ install_slurm()
 		    install_pbspro
 		    disable_kernel_update
             elif [ "$TORQUEORPBSORSLURM" == "slurm" ] ; then
-            install_slurm_rpms
+            #install_slurm_rpms
             install_munge
             install_slurm_config
             install_slurm
