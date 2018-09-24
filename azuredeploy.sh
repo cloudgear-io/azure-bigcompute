@@ -1235,7 +1235,7 @@ install_munge()
 
     wget https://github.com/dun/munge/archive/${MUNGE_VERSION}.tar.gz
 
-    tar xvfz munge-${MUNGE_VERSION}.tar.gz
+    tar xvfz ${MUNGE_VERSION}.tar.gz
 
     cd munge-${MUNGE_VERSION}
 
@@ -1263,6 +1263,32 @@ install_munge()
 
     cd ..
 }
+# Installs and configures slurm.conf on the node.
+# This is generated on the master node and placed in the data
+# share.  All nodes create a sym link to the SLURM conf
+# as all SLURM nodes must share a common config file.
+#
+install_slurm_config()
+{
+    if is_master; then
+
+        mkdir -p $SLURM_CONF_DIR
+
+        if [ -e "$TEMPLATE_BASE_URL/slurm.template.conf" ]; then
+            cp "$TEMPLATE_BASE_URL/slurm.template.conf" .
+        else
+            wget "$TEMPLATE_BASE_URL/slurm.template.conf"
+        fi
+
+        cat slurm.template.conf |
+        sed 's/__MASTER__/'"$MASTER_HOSTNAME"'/g' |
+                sed 's/__WORKER_HOSTNAME_PREFIX__/'"$WORKER_HOSTNAME_PREFIX"'/g' |
+                sed 's/__LAST_WORKER_INDEX__/'"$LAST_WORKER_INDEX"'/g' > $SLURM_CONF_DIR/slurm.conf
+    fi
+
+    ln -s $SLURM_CONF_DIR/slurm.conf /etc/slurm/slurm.conf
+}
+
 # Downloads, builds and installs SLURM on the node.
 # Starts the SLURM control daemon on the master node and
 # the agent on worker nodes.
