@@ -87,10 +87,11 @@
                 "description": "User for running HPC/GPU applications with shared home directory and SSH public key authentication setup within the cluster.   This user cannot login from outside the cluster. Pick a valid username otherwise there will be a BadRequest error."
             }
         },
-        "SchedulerpbsORTorque": {
+        "schedulerpbsORTorqueORslurm": {
             "type": "string",
             "allowedValues": [
                 "None",
+                "slurm",
                 "pbspro",
                 "Torque"
             ],
@@ -415,8 +416,8 @@
                 "hpcUserName": {
                     "value": "[parameters('GpuHpcUserName')]"
                 },
-                "schedulerpbsORTorque": {
-                    "value": "[parameters('SchedulerpbsORTorque')]"
+                "schedulerpbsORTorqueORslurm": {
+                    "value": "[parameters('schedulerpbsORTorqueORslurm')]"
                 },
                 "saltStackInstall": {
                     "value": "[parameters('SaltStackInstall')]"

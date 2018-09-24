@@ -28,13 +28,29 @@ HELM_HOME="$SHARE_HOME/.helm"
 
 # Shares
 MNT_POINT="$3"
-SHARE_HOME=$MNT_POINT/home
 SHARE_DATA=$MNT_POINT/data
+SHARE_HOME=$SHARE_DATA/home
 
 # Munged
-MUNGE_VER=$( echo "$4" |cut -d\: -f1 )
-MUNGE_GROUP=$( echo "$4" |cut -d\: -f2 )
-TORQUEORPBS=$( echo "$4" |cut -d\: -f3 )
+# MUNGE_VER=$( echo "$4" |cut -d\: -f1 )
+# MUNGE_GROUP=$( echo "$4" |cut -d\: -f2 )
+
+# Munged
+MUNGE_USER=munge
+MUNGE_GROUP=munge
+# Master of https://github.com/dun/munge/
+MUNGE_VERSION=master
+
+# SLURM
+SLURM_USER=slurm
+SLURM_UID=6006
+SLURM_GROUP=slurm
+SLURM_GID=6006
+# Master of https://github.com/SchedMD/slurm
+SLURM_VERSION=master
+SLURM_CONF_DIR=$SHARE_DATA/conf
+
+TORQUEORPBSORSLURM=$( echo "$4" |cut -d\: -f3 )
 SALTSTACKBOOLEAN=$( echo "$4" |cut -d\: -f4 )
 
 
@@ -487,8 +503,8 @@ install_all_docker()
 }
 setup_shares()
 {
-    mkdir -p $SHARE_HOME
     mkdir -p $SHARE_DATA
+    mkdir -p $SHARE_HOME
 
     if is_master; then
         #setup_data_disks $SHARE_DATA
@@ -1197,7 +1213,7 @@ echo "install_tf_kubectl_helm already installed on share"
 fi     
 }
 
-install_slurm_head()
+install_slurm_rpms()
 {
 if is_master; then
 yum install -y pam-devel bzip2-devel openssl-devel readline-devel perl-ExtUtils-MakeMaker mariadb-server mariadb-devel
@@ -1211,6 +1227,86 @@ else
 echo "install manually on computes"
 fi  
 }
+install_munge()
+{
+    groupadd $MUNGE_GROUP
+
+    useradd -M -c "Munge service account" -g munge -s /usr/sbin/nologin munge
+
+    wget https://github.com/dun/munge/archive/${MUNGE_VERSION}.tar.gz
+
+    tar xvfz munge-${MUNGE_VERSION}.tar.gz
+
+    cd munge-${MUNGE_VERSION}
+
+    mkdir -m 700 /etc/munge
+    mkdir -m 711 /var/lib/munge
+    mkdir -m 700 /var/log/munge
+    mkdir -m 755 /var/run/munge
+
+    ./configure -libdir=/usr/lib64 --prefix=/usr --sysconfdir=/etc --localstatedir=/var && make && make install
+
+    chown -R munge:munge /etc/munge /var/lib/munge /var/log/munge /var/run/munge
+
+    if is_master; then
+        dd if=/dev/urandom bs=1 count=1024 > /etc/munge/munge.key
+        mkdir -p $SLURM_CONF_DIR
+        cp /etc/munge/munge.key $SLURM_CONF_DIR
+    else
+        cp $SLURM_CONF_DIR/munge.key /etc/munge/munge.key
+    fi
+
+    chown munge:munge /etc/munge/munge.key
+    chmod 0400 /etc/munge/munge.key
+
+    /etc/init.d/munge start
+
+    cd ..
+}
+# Downloads, builds and installs SLURM on the node.
+# Starts the SLURM control daemon on the master node and
+# the agent on worker nodes.
+#
+install_slurm()
+{
+    groupadd -g $SLURM_GID $SLURM_GROUP
+
+    useradd -M -u $SLURM_UID -c "SLURM service account" -g $SLURM_GROUP -s /usr/sbin/nologin $SLURM_USER
+
+    mkdir -p /etc/slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld
+
+    chown -R slurm:slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld
+
+    wget https://github.com/SchedMD/slurm/archive/$SLURM_VERSION.tar.gz
+
+    tar xvfz $SLURM_VERSION.tar.gz
+
+    cd slurm-$SLURM_VERSION
+
+    ./configure -libdir=/usr/lib64 --prefix=/usr --sysconfdir=/etc/slurm && make -j 4 && make install
+
+    install_slurm_config
+
+    if is_master; then
+        wget $TEMPLATE_BASE_URL/slurmctld.service
+        mv slurmctld.service /usr/lib/systemd/system
+        systemctl daemon-reload
+        systemctl enable slurmctld
+        systemctl start slurmctld
+        systemctl status slurmctld
+    else
+        wget $TEMPLATE_BASE_URL/slurmd.service
+        mv slurmd.service /usr/lib/systemd/system
+        systemctl daemon-reload
+        systemctl enable slurmd
+        systemctl start slurmd
+        systemctl status slurmd
+    fi
+
+    cd ..
+}
+
+
 #########################
 	if [ "$skuName" == "16.04-LTS" ] ; then
 		install_packages_ubuntu
@@ -1299,13 +1395,17 @@ fi
 		    sleep 30;
 		    installomsagent;
 		    fi
-		    install_slurm_head
-	        if [ "$TORQUEORPBS" == "Torque" ] ; then
+		    if [ "$TORQUEORPBSORSLURM" == "Torque" ] ; then
 		    install_torque
-		    elif [ "$TORQUEORPBS" == "pbspro" ] ; then
+		    elif [ "$TORQUEORPBSORSLURM" == "pbspro" ] ; then
 		    enable_kernel_update
 		    install_pbspro
 		    disable_kernel_update
+            elif [ "$TORQUEORPBSORSLURM" == "slurm" ] ; then
+            install_slurm_rpms
+            install_munge
+            install_slurm_config
+            install_slurm
 		    else
 		    echo "nothing to install"
 		    fi
@@ -1322,13 +1422,17 @@ fi
 		    sleep 30;
 		    installomsagent;
 		    fi
-		    
-	            if [ "$TORQUEORPBS" == "Torque" ] ; then
+		    if [ "$TORQUEORPBSORSLURM" == "Torque" ] ; then
 		    install_torque
-		    elif [ "$TORQUEORPBS" == "pbspro" ] ; then
+		    elif [ "$TORQUEORPBSORSLURM" == "pbspro" ] ; then
 		    enable_kernel_update
 		    install_pbspro
 		    disable_kernel_update
+            elif [ "$TORQUEORPBSORSLURM" == "slurm" ] ; then
+            install_slurm_rpms
+            install_munge
+            install_slurm_config
+            install_slurm
 		    else
 		    echo "nothing to install"
 		    fi
@@ -1344,14 +1448,18 @@ fi
 		    if [ ! -z "$omsworkspaceid" ]; then
 		    sleep 30;
 		    installomsagent;
-		    fi
-		    
-	            if [ "$TORQUEORPBS" == "Torque" ] ; then
+		    fi		    
+		    if [ "$TORQUEORPBSORSLURM" == "Torque" ] ; then
 		    install_torque
-		    elif [ "$TORQUEORPBS" == "pbspro" ] ; then
+		    elif [ "$TORQUEORPBSORSLURM" == "pbspro" ] ; then
 		    enable_kernel_update
 		    install_pbspro
 		    disable_kernel_update
+            elif [ "$TORQUEORPBSORSLURM" == "slurm" ] ; then
+            install_slurm_rpms
+            install_munge
+            install_slurm_config
+            install_slurm
 		    else
 		    echo "nothing to install"
 		    fi

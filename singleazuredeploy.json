@@ -79,10 +79,11 @@
                 "description": "User for running HPC/GPU applications with shared home directory and SSH public key authentication setup within the cluster.   This user cannot login from outside the cluster. Pick a valid username otherwise there will be a BadRequest error."
             }
         },
-        "schedulerpbsORTorque": {
+        "schedulerpbsORTorqueORslurm": {
             "type": "string",
             "allowedValues": [
                 "None",
+                "slurm",
                 "pbspro",
                 "Torque"
             ],
@@ -563,7 +564,7 @@
         "diskCaching": "ReadWrite",
         "MUNGE_VER": "0.5.11",
         "MUNGE_USER_GROUP": "munge",
-        "mungedet": "[concat(variables('MUNGE_VER'), ':', variables('MUNGE_USER_GROUP'), ':', parameters('schedulerpbsORTorque'), ':', parameters('saltStackInstall'))]",
+        "mungedet": "[concat(variables('MUNGE_VER'), ':', variables('MUNGE_USER_GROUP'), ':', parameters('schedulerpbsORTorqueORslurm'), ':', parameters('saltStackInstall'))]",
         "CUDA_VER": "[parameters('cudaVersion')]",
         "TESLA_DRIVER_LINUX": "[parameters('teslaDriverVersion')]",
         "nvidiadet": "[concat(variables('CUDA_VER'), ':', variables('TESLA_DRIVER_LINUX'))]",
