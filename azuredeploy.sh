@@ -1281,7 +1281,7 @@ install_slurm_config()
         fi
 
         cat slurm.template.conf |
-        sed 's/__MASTER__/'"$MASTER_HOSTNAME"'/g' |
+        sed 's/__master__/'"$MASTER_HOSTNAME"'/g' |
                 sed 's/__WORKER_HOSTNAME_PREFIX__/'"$WORKER_HOSTNAME_PREFIX"'/g' |
                 sed 's/__LAST_WORKER_INDEX__/'"$LAST_WORKER_INDEX"'/g' > $SLURM_CONF_DIR/slurm.conf
     fi
