@@ -11,7 +11,7 @@ Table of Contents
       * [License for this repository](#license)
         * [PBS Pro Master 4.0.1 AGPL-3.0 usage section for HPC](#pbs-pro-license)
         * [NVIDIA EULA for compute silent installs via this repo](#license-agreements)
-		* [SLURM LICENSE AGREEMENT - GPL v2](#slurm-license-aggrement---gpl-v2)
+		* [SLURM LICENSE AGREEMENT - GPL v2](#slurm-license-agreement---gpl-v2)
       * [MSFT OSCC](#msft-oscc)v
       * [Credits](#credits)
    * [Deploy from Portal and visualize](#deploy-from-portal-and-visualize)
