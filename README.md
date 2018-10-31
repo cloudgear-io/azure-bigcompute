@@ -11,7 +11,8 @@ Table of Contents
       * [License for this repository](#license)
         * [PBS Pro Master 4.0.1 AGPL-3.0 usage section for HPC](#pbs-pro-license)
         * [NVIDIA EULA for compute silent installs via this repo](#license-agreements)
-      * [MSFT OSCC](#msft-oscc)
+		* [SLURM LICENSE AGREEMENT - GPL v2](#slurm-license-aggrement---gpl-v2)
+      * [MSFT OSCC](#msft-oscc)v
       * [Credits](#credits)
    * [Deploy from Portal and visualize](#deploy-from-portal-and-visualize)
    * [Single or Cluster Topology Examples with Azure CLI](#single-or-cluster-topology-examples-with-azure-cli)
@@ -491,6 +492,12 @@ check for Torque or PBSPro via
 
 All path are set automatically for key 'default' users like azureuser/hpc/root
 for root specific <code>su - root</code> is required.
+
+#### SLURM LICENSE AGREEMENT - GPL v2
+
+  * [SLURM LICENSE AGREEMENT - GPL v2](https://github.com/SchedMD/slurm/blob/master/COPYING#L23)
+  * [GNU General Public License, version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+
 
 ## Optional usage with OMS
 
