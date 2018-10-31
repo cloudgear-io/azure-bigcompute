@@ -498,6 +498,9 @@ for root specific <code>su - root</code> is required.
   * [SLURM LICENSE AGREEMENT - GPL v2](https://github.com/SchedMD/slurm/blob/master/COPYING#L23)
   * [GNU General Public License, version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
+To check slurm info please shoot : `sinfo -N -l`
+
+Since this is is Intel MPI, preferred usage is using `mpirun` with `sbatch`
 
 ## Optional usage with OMS
 
